@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 float-left" >
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a routerLink="/">Home</a></li>
+        <li role="presentation" ><a routerLink="/water-supply">Water Supply Registration Form</a></li>
+        <li role="presentation" ><a routerLink="/birth-certificate">Birth Certificate Form</a></li>
+        <li role="presentation" ><a routerLink="/house-Permit">House Development Form</a></li>
+        <li role="presentation" ><a routerLink="/Show-Application">Show All Requests</a></li>
+
+      </ul>
+    </div>
+  </div>
+  <!-- <app-cockpit
+  (serverCreated)="onServerAdded($event)"
+  (bluePrintCreated)="onBlueprintAdded($event)"></app-cockpit>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+     <app-server-element
+     *ngFor="let serverElement of serverElements"
+     [element]="serverElement"></app-server-element>
+
+    </div>
+  </div> -->
+
+
+
+<hr>
+
+  <router-outlet></router-outlet>
+</div>
