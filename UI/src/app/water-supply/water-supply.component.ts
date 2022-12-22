@@ -79,6 +79,7 @@ export class WaterSupplyComponent implements OnInit {
 
       this.person[keyID]=value;
       this.person["formType"]="waterTable";
+      this.person['Decison']="pending"
       this.PersonList.push(this.person);
 
   }

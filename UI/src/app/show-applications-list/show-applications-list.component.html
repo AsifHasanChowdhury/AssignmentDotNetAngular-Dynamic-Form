@@ -1,13 +1,43 @@
-<p>show-applications-list works!</p>
-
-<span>
-    <p>Object</p>
-    <div *ngFor="let item of object | keyvalue">
-      {{item.key}}:{{item.value}}
-
-    </div>
-  <button>Click Here</button>
-</span>
 
 
+<!-- <div *ngFor="let item of alphas | keyvalue">
+  <div *ngFor="let val of item.value | keyvalue">
+   {{val.key}}
+  </div>
+</div> 
 
+<div *ngFor="let item of alphas | keyvalue">
+  <div *ngFor="let val of item.value | keyvalue">
+   {{val.value}}
+  </div>
+</div> -->
+
+<table class="table table-striped" style="border: solid 2px;">
+  <thead>
+    <tr >
+      <th  *ngFor="let UIitem of UIKeys"> {{UIitem}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of alphas | keyvalue">
+      <td *ngFor="let val of item.value | keyvalue">{{val.value}}</td>
+      <td>
+        <button style="margin-right: 7px;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
+        <button style="margin-right: 7px;"type="button" class="btn btn-success">Approve</button>
+        <button style="margin-right: 7px;"type="button" class="btn btn-danger" >Reject</button>
+        <button type="button" class="btn btn-info">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br><br><br><br>
+
+
+<form *ngIf="display" id="Parent" (ngSubmit)="onUpdate(f1)" #f1="ngForm" style="border: solid 2px; padding: 20px;">
+  <h1 style="font-weight: bold; color: brown;">Update your Information</h1> <br><br>
+  <div class="form-group" *ngFor="let data of UIKeys; let user of individualUser|keyvalue" >
+    <label >{{data.key}}</label>
+  <input  id="{{data.key}}" class="form-control" value="{{data.value}}">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

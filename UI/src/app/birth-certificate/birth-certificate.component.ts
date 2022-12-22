@@ -78,6 +78,7 @@ export class BirthCertificateComponent implements OnInit {
 
       this.person[keyID]=value;
       this.person["formType"]="birthTable";
+      this.person['Decison']="pending"
       this.PersonList.push(this.person);
 
     }

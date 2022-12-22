@@ -77,6 +77,7 @@ export class HousePermitComponent implements OnInit {
 
       this.person[keyID]=value;
       this.person["formType"]="HomePermitTable";
+      this.person['Decison']="pending"
       this.PersonList.push(this.person);
 
     }

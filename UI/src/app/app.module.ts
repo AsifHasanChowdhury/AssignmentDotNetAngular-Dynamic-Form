@@ -13,11 +13,13 @@ import { ShowApplicationsListComponent } from './show-applications-list/show-app
 import * as Http from "http";
 
 
+
 const  appRoutes: Routes=[
   {path: 'water-supply',component:WaterSupplyComponent},
   {path: 'birth-certificate' , component:BirthCertificateComponent},
   {path: 'house-Permit' , component:HousePermitComponent},
-  {path: 'Show-Application', component:ShowApplicationsListComponent}
+  {path: 'Show-Application', component:ShowApplicationsListComponent},
+  
 ]
 @NgModule({
   declarations: [
