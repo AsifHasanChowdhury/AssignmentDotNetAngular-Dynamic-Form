@@ -61,18 +61,17 @@ export class ShowApplicationsListComponent implements OnInit {
         //console.log("Hello");
       });
   }
-  // sendToAPI(){
+  sendToAPI(){
 
-  //   this.http
-  //     .post(
-  //       'https://localhost:7060/api/ProductAPI/GetFormModule',
-  //       this.person
-  //     )
-  //     .subscribe(responseData => {
-  //       //console.log(responseData);
-  //     });
-  //   //console.log(form['value']);
-  // }
+    this.http
+      .post(
+        'https://localhost:44379/Form/GetFormResponse',
+        this.person)
+      .subscribe(responseData => {
+       // console.log(responseData);
+      });
+    //console.log(form['value']);
+  }
   onUpdate(form:NgForm){
     for(var i=0;i<document
       .getElementById('Parent')
@@ -94,7 +93,7 @@ export class ShowApplicationsListComponent implements OnInit {
     this.person[keyID]=value;  
 }
 console.log(this.person)
-//this.sendToAPI();
+this.sendToAPI();
     
   }
 
