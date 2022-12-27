@@ -12,7 +12,7 @@ using System.Dynamic;
 
 namespace Assignment.Web.API.Controllers
 {
-    [Authorize(Roles = "Admin,GeneralUser")]
+    [Authorize(Roles = "Manager")]
     [Route("[controller]")]
     [ApiController]
     public class FormController : ControllerBase

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import {DomSanitizer, SafeHtml}  from "@angular/platform-browser";
 import {NgForm} from "@angular/forms";
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   genders = ['Male', 'Female'];
 
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private jwtHelper: JwtHelperService) {}
 
   ngOnInit() {
    // this.fetchPosts();
@@ -68,4 +69,13 @@ export class AppComponent implements OnInit {
 
 
    */
+  isUserAuthenticated = (): boolean => {
+    const token = localStorage.getItem("jwt");
+
+    if (token && !this.jwtHelper.isTokenExpired(token)){
+      return true;
+    }
+
+    return false;
+  }
 }

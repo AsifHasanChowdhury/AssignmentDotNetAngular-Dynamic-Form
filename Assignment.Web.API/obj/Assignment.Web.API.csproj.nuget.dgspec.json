@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SECL\\source\\repos\\Assignment.Web.API\\Assignment.Web.API.csproj": {}
+    "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SECL\\source\\repos\\Assignment.Web.API\\Assignment.Web.API.csproj": {
+    "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SECL\\source\\repos\\Assignment.Web.API\\Assignment.Web.API.csproj",
+        "projectUniqueName": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
         "projectName": "Assignment.Web.API",
-        "projectPath": "C:\\Users\\SECL\\source\\repos\\Assignment.Web.API\\Assignment.Web.API.csproj",
+        "projectPath": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
         "packagesPath": "C:\\Users\\SECL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SECL\\source\\repos\\Assignment.Web.API\\obj\\",
+        "outputPath": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\SECL\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
               "version": "[1.0.2, )"

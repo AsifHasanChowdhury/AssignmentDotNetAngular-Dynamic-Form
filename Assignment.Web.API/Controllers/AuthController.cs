@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Newtonsoft.Json;
+using Assignment.Web.API.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace Assignment.Web.API.Controllers
 {
@@ -25,70 +29,41 @@ namespace Assignment.Web.API.Controllers
             // _httpClient.BaseAddress = baseAddress;
         }
 
-        
-        [HttpPost]
-        [Route("UserLogin")]
-        public string Login([FromBody] Object json)
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginModel user)
         {
-            /*
-                var data = JsonConvert
-                          .DeserializeObject<dynamic>(json.ToString());
-            */
-               // var userRole = _UsersRepository.loginAsync(json);
-                var userRole = "Admin";
-
-                if ( userRole != "NoRole")
-                {
-
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, "Shimanto@gmail.com"),
-                        new Claim(ClaimTypes.Name,"Asif Hasan"),
-                        new Claim(ClaimTypes.Role,userRole),
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(
-                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    var authProperties = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        // Refreshing the authentication session should be allowed.
-
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(5000000),
-                        // The time at which the authentication ticket expires. A 
-                        // value set here overrides the ExpireTimeSpan option of 
-                        // CookieAuthenticationOptions set with AddCookie.
-
-                        //IsPersistent = true,
-                        // Whether the authentication session is persisted across 
-                        // multiple requests. When used with cookies, controls
-                        // whether the cookie's lifetime is absolute (matching the
-                        // lifetime of the authentication ticket) or session-based.
-
-                        IssuedUtc = DateTime.UtcNow,
-                        // The time at which the authentication ticket was issued.
-
-                        RedirectUri = "https://www.facebook.com/"
-                        // The full path or absolute URI to be used as an http 
-                        // redirect response value.
-                    };
-
-
-
-                    HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-
-                return userRole;
+            if (user is null)
+            {
+                return BadRequest("Invalid client request");
             }
 
-                return userRole;
+            if (user.UserName == "johndoe" && user.Password == "def@123")
+            {
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-            
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, "Manager")
+                };
+
+                var tokeOptions = new JwtSecurityToken(
+                    issuer: "https://localhost:44379",
+                    audience: "https://localhost:44379",
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(5),
+                    signingCredentials: signinCredentials
+                );
+
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+                return Ok(new AuthenticatedResponse { Token = tokenString });
+            }
+
+            return Unauthorized();
         }
-        
+
     }
 }
