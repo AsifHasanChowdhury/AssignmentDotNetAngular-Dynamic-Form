@@ -143,7 +143,12 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                     {
                        
                         JObject WFRjson = JObject.Parse(dt.Rows[i]["WFR"].ToString());
-                        WFRjson.Add("Oid", dt.Rows[i]["WTOID"].ToString());
+
+                        if (!WFRjson.ContainsKey("Oid"))
+                        {
+                            WFRjson.Add("Oid", dt.Rows[i]["WTOID"].ToString());
+
+                        }
 
                         JsonList.Append(Convert.ToString(WFRjson));
                         JsonList.Append(',');
@@ -152,7 +157,14 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                     if (dt.Rows[i]["HPFR"].ToString() != "")
                     {
                         JObject HPFRjson = JObject.Parse(dt.Rows[i]["HPFR"].ToString());
-                        HPFRjson.Add("Oid", dt.Rows[i]["HTOID"].ToString());
+
+                        if (!HPFRjson.ContainsKey("Oid"))
+                        {
+                            HPFRjson.Add("Oid", dt.Rows[i]["HTOID"].ToString());
+
+                        }
+
+
 
                         JsonList.Append(Convert.ToString(HPFRjson));
                         JsonList.Append(',');
@@ -161,7 +173,12 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                     if (dt.Rows[i]["BFR"].ToString() != "")
                     {
                         JObject BFRjson = JObject.Parse(dt.Rows[i]["BFR"].ToString());
-                        BFRjson.Add("Oid", dt.Rows[i]["BTOID"].ToString());
+
+                        if (!BFRjson.ContainsKey("Oid"))
+                        {
+                            BFRjson.Add("Oid", dt.Rows[i]["BTOID"].ToString());
+
+                        }
 
                         JsonList.Append(Convert.ToString(BFRjson));
                         JsonList.Append(',');
