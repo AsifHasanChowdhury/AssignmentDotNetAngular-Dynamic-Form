@@ -1,10 +1,12 @@
 ﻿using Assignment.Web.API.Repository.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json.Nodes;
 
 namespace Assignment.Web.API.Repository.Data_Access_Layer
 {
@@ -69,6 +71,9 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                 ("INSERT INTO dbo.userInfo(userEmail) SELECT 'email' WHERE NOT EXISTS " +
                 "(SELECT userEmail FROM dbo.userInfo  WHERE userEmail = 'checkEmail')");
 
+                //this query checking whether the user email exists or not before inserting it to db
+
+
                 userEmailQuery.Replace("email", email);
                 userEmailQuery.Replace("checkEmail", email);
 
@@ -117,9 +122,9 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
                 connection.Open();
 
-                string loadInforamtion = "SELECT waterTable.FormResponse AS WFR, " +
-                    "HomePermitTable.FormResponse AS HPFR," +
-                    "birthTable.FormResponse AS BFR " +
+                string loadInforamtion = "SELECT waterTable.Oid AS WTOID, waterTable.FormResponse AS WFR, " +
+                    "HomePermitTable.Oid AS HTOID, HomePermitTable.FormResponse AS HPFR," +
+                    "birthTable.Oid  AS BTOID , birthTable.FormResponse AS BFR " +
                     "FROM userInfo " +
                     "RIGHT JOIN waterTable ON waterTable.UserOid = userInfo.Oid " +
                     "LEFT JOIN HomePermitTable ON HomePermitTable.UserId = userInfo.Oid " +
@@ -136,20 +141,30 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                 {
                     if (dt.Rows[i]["WFR"].ToString() != "")
                     {
-                        JsonList.Append(Convert.ToString(dt.Rows[i]["WFR"]));
+                       
+                        JObject WFRjson = JObject.Parse(dt.Rows[i]["WFR"].ToString());
+                        WFRjson.Add("Oid", dt.Rows[i]["WTOID"].ToString());
+
+                        JsonList.Append(Convert.ToString(WFRjson));
                         if(i != dt.Rows.Count - 1) JsonList.Append(",");
 
                     }
                     if (dt.Rows[i]["HPFR"].ToString() != "")
                     {
-                        JsonList.Append(Convert.ToString(dt.Rows[i]["HPFR"]));
+                        JObject HPFRjson = (JObject)dt.Rows[i]["HPFR"];
+                        HPFRjson.Add("Oid", dt.Rows[i]["HTOID"].ToString());
+
+                        JsonList.Append(Convert.ToString(HPFRjson));
 
                         if (i != dt.Rows.Count - 1) JsonList.Append(",");
 
                     }
                     if (dt.Rows[i]["BFR"].ToString() != "")
                     {
-                        JsonList.Append(Convert.ToString(dt.Rows[i]["BFR"]));
+                        JObject BFRjson = (JObject)dt.Rows[i]["BFR"];
+                        BFRjson.Add("Oid", dt.Rows[i]["BTOID"].ToString());
+
+                        JsonList.Append(Convert.ToString(BFRjson));
 
                         if (i != dt.Rows.Count - 1) JsonList.Append(",");
 
@@ -166,6 +181,45 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
             }
 
            return JsonList.ToString();
+        }
+
+
+        public void updateFormInformation([FromBody] Object json, string email, string formTable)
+        {
+            try
+            {
+
+                SqlConnection connection =
+                    new SqlConnection(Configuration
+                    .GetConnectionString("DefaultConnection")
+                    .ToString());
+
+
+                connection.Open();
+
+                StringBuilder queryString =
+                new StringBuilder
+                ("UPDATE [UserInfoTable] SET ((SELECT Oid FROM userInfo WHERE userEmail= 'email' ), @userInformation);");
+
+                queryString.Replace("[UserInfoTable]", formTable);
+
+                queryString.Replace("email", email);
+                //queryString.Replace("@userInformation", json);
+
+                SqlCommand cmd = new SqlCommand(queryString.ToString(), connection);
+
+                //cmd.Parameters.AddWithValue("@id", 2);
+                cmd.Parameters.AddWithValue("@userInformation", json.ToString());
+
+                cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
         }
         
     }

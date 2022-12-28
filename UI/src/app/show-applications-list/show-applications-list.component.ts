@@ -31,7 +31,7 @@ export class ShowApplicationsListComponent implements OnInit {
     this.individualUser=individualUser;
     console.log(this.individualUser);
   }
-  
+
   private fetchWaterForm(){
 
     this.http
@@ -43,17 +43,17 @@ export class ShowApplicationsListComponent implements OnInit {
           //this.safeWaterForm=this.sanitizer.bypassSecurityTrustHtml(this.alphas);
           console.log(this.alphas)
           for(let item of this.alphas){
-         
+
             for(let i=0;i<Object.keys(item).length;i++){
               const key = Object.keys(item)[i]
               //console.log(key)
               this.UIKeys.push(key);
             }
-            
+
             break;
           }
           console.log(this.UIKeys);
-          
+
         })
       )
       .subscribe(posts => {
@@ -61,17 +61,20 @@ export class ShowApplicationsListComponent implements OnInit {
         //console.log("Hello");
       });
   }
+
+
   sendToAPI(){
 
     this.http
       .post(
-        'https://localhost:44379/Form/GetFormResponse',
+        'https://localhost:44379/Form/UpdateFormInfo',
         this.person)
       .subscribe(responseData => {
        // console.log(responseData);
       });
     //console.log(form['value']);
   }
+
   onUpdate(form:NgForm){
     for(var i=0;i<document
       .getElementById('Parent')
@@ -88,13 +91,13 @@ export class ShowApplicationsListComponent implements OnInit {
       .querySelectorAll('input')
       .item(i).value;
 
-    
 
-    this.person[keyID]=value;  
+
+    this.person[keyID]=value;
 }
 console.log(this.person)
 this.sendToAPI();
-    
+
   }
 
 }
