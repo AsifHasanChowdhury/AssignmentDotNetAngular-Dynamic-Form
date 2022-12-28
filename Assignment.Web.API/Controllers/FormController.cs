@@ -116,5 +116,33 @@ namespace Assignment.Web.API.Controllers
             return FormList;
         }
 
+
+        [HttpPost]
+        [Route("UpdateFormInfo")]
+
+        public void UpdateInformationbyAdmin([FromBody] Object json)
+        {
+            var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
+            string email = "";
+            string FormTable = "";
+
+            foreach (JProperty property in data.Properties())
+            {
+                // Debug.WriteLine(property.Name + " ---- " + property.Value);
+                if (property.Name == "email")
+                {
+                    email = (string)property.Value;
+                }
+                else if (property.Name == "formType") //which table will get the data
+                {
+                    FormTable = (string)property.Value;
+                }
+
+            }
+
+            FormJsonRepository.updateFormInformation(json, email, FormTable);
+
+        }
+
     }
 }

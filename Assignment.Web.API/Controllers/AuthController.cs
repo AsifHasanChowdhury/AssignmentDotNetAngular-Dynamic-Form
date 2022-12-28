@@ -13,6 +13,7 @@ using Assignment.Web.API.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Assignment.Web.API.Controllers
 {
@@ -31,10 +32,13 @@ namespace Assignment.Web.API.Controllers
 
 
         [HttpPost("login")]
+        [AllowAnonymous]
+        
         public IActionResult Login([FromBody] LoginModel user)
         {
             if (user is null)
             {
+
                 return BadRequest("Invalid client request");
             }
 
@@ -63,6 +67,14 @@ namespace Assignment.Web.API.Controllers
             }
 
             return Unauthorized();
+        }
+
+
+        [HttpPost]
+        [Route("RegisterUser")]
+        public IActionResult RegisterUser([FromBody] Object json)
+        {
+            return null;
         }
 
     }

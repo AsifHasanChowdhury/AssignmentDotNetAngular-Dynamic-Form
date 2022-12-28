@@ -146,32 +146,34 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                         WFRjson.Add("Oid", dt.Rows[i]["WTOID"].ToString());
 
                         JsonList.Append(Convert.ToString(WFRjson));
-                        if(i != dt.Rows.Count - 1) JsonList.Append(",");
+                        JsonList.Append(',');
 
                     }
                     if (dt.Rows[i]["HPFR"].ToString() != "")
                     {
-                        JObject HPFRjson = (JObject)dt.Rows[i]["HPFR"];
+                        JObject HPFRjson = JObject.Parse(dt.Rows[i]["HPFR"].ToString());
                         HPFRjson.Add("Oid", dt.Rows[i]["HTOID"].ToString());
 
                         JsonList.Append(Convert.ToString(HPFRjson));
-
-                        if (i != dt.Rows.Count - 1) JsonList.Append(",");
+                        JsonList.Append(',');
 
                     }
                     if (dt.Rows[i]["BFR"].ToString() != "")
                     {
-                        JObject BFRjson = (JObject)dt.Rows[i]["BFR"];
+                        JObject BFRjson = JObject.Parse(dt.Rows[i]["BFR"].ToString());
                         BFRjson.Add("Oid", dt.Rows[i]["BTOID"].ToString());
 
                         JsonList.Append(Convert.ToString(BFRjson));
-
-                        if (i != dt.Rows.Count - 1) JsonList.Append(",");
+                        JsonList.Append(',');
 
                     }
 
                 }
+                //JsonList.Remove(JsonList.Length - 2,JsonList.Length-1);
+                JsonList.Length--;
                 JsonList.Append("]");
+                
+                
 
 
             }
