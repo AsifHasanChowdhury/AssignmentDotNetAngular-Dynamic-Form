@@ -101,6 +101,7 @@ export class ShowApplicationsListComponent implements OnInit {
     this.person[keyID]=value;
 }
 console.log(this.person)
+    this.display=false;
 this.sendToAPI();
 
   }

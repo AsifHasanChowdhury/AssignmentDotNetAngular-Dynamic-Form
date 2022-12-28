@@ -186,7 +186,7 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
         }
 
 
-        public void updateFormInformation([FromBody] Object json, string email, string formTable)
+        public void updateFormInformation([FromBody] Object json, int Oid, string formTable)
         {
             try
             {
@@ -201,11 +201,13 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
                 StringBuilder queryString =
                 new StringBuilder
-                ("UPDATE [UserInfoTable] SET ((SELECT Oid FROM userInfo WHERE userEmail= 'email' ), @userInformation);");
+                ("UPDATE [UserInfoTable] SET FormResponse=Data WHERE Oid=id;");
 
                 queryString.Replace("[UserInfoTable]", formTable);
 
-                queryString.Replace("email", email);
+                queryString.Replace("Data", json.ToString());
+
+                queryString.Replace("id", Oid.ToString());  
                 //queryString.Replace("@userInformation", json);
 
                 SqlCommand cmd = new SqlCommand(queryString.ToString(), connection);

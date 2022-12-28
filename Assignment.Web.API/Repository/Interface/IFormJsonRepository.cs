@@ -10,7 +10,7 @@ namespace Assignment.Web.API.Repository.Interface
 
         public String FetchApplicationList();
 
-        public void updateFormInformation(Object json, string form, string formTable);
+        public void updateFormInformation(Object json, int Oid, string formTable);
 
     }
 }

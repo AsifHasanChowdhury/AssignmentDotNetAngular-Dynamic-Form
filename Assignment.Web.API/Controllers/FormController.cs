@@ -123,15 +123,16 @@ namespace Assignment.Web.API.Controllers
         public void UpdateInformationbyAdmin([FromBody] Object json)
         {
             var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
-            string email = "";
+            int Oid=0;
             string FormTable = "";
+            
 
             foreach (JProperty property in data.Properties())
             {
                 // Debug.WriteLine(property.Name + " ---- " + property.Value);
-                if (property.Name == "email")
+                if (property.Name == "Oid")
                 {
-                    email = (string)property.Value;
+                    Oid = (int)property.Value;
                 }
                 else if (property.Name == "formType") //which table will get the data
                 {
@@ -140,7 +141,7 @@ namespace Assignment.Web.API.Controllers
 
             }
 
-            FormJsonRepository.updateFormInformation(json, email, FormTable);
+            FormJsonRepository.updateFormInformation(json, Oid, FormTable);
 
         }
 

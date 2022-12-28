@@ -4,7 +4,7 @@
   <div *ngFor="let val of item.value | keyvalue">
    {{val.key}}
   </div>
-</div> 
+</div>
 
 <div *ngFor="let item of alphas | keyvalue">
   <div *ngFor="let val of item.value | keyvalue">
@@ -39,5 +39,5 @@
     <label >{{data.key}}</label>
   <input  id="{{data.key}}" class="form-control" value="{{data.value}}">
   </div>
-  <button type="submit" class="btn btn-primary" (click)="hideForm()">Submit</button>
+  <button type="submit" class="btn btn-primary" >Submit</button>
 </form>
