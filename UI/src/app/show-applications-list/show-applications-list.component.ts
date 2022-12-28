@@ -3,6 +3,7 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import { NgForm } from '@angular/forms';
+import { TitleStrategy } from '@angular/router';
 
 @Component({
   selector: 'app-show-applications-list',
@@ -31,6 +32,9 @@ export class ShowApplicationsListComponent implements OnInit {
     this.individualUser=individualUser;
     console.log(this.individualUser);
   }
+  hideForm(){
+    this.display=false;
+  }
 
   private fetchWaterForm(){
 
@@ -48,6 +52,7 @@ export class ShowApplicationsListComponent implements OnInit {
               const key = Object.keys(item)[i]
               //console.log(key)
               this.UIKeys.push(key);
+              this.UIKeys=this.UIKeys.sort();
             }
 
             break;
