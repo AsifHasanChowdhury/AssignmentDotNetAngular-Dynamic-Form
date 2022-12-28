@@ -186,7 +186,7 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
         }
 
 
-        public void updateFormInformation([FromBody] Object json, int Oid, string formTable)
+        public void updateFormInformation([FromBody] Object json, int TableID, string formTable)
         {
             try
             {
@@ -201,26 +201,26 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
                 StringBuilder queryString =
                 new StringBuilder
-                ("UPDATE [UserInfoTable] SET FormResponse=Data WHERE Oid=id;");
+                ("UPDATE [UserInfoTable] SET FormResponse= 'updatedData' WHERE Oid = Tableid;");
 
                 queryString.Replace("[UserInfoTable]", formTable);
 
-                queryString.Replace("Data", json.ToString());
+                queryString.Replace("updatedData", json.ToString());
 
-                queryString.Replace("id", Oid.ToString());  
+                queryString.Replace("Tableid", TableID.ToString());  
                 //queryString.Replace("@userInformation", json);
 
                 SqlCommand cmd = new SqlCommand(queryString.ToString(), connection);
 
                 //cmd.Parameters.AddWithValue("@id", 2);
-                cmd.Parameters.AddWithValue("@userInformation", json.ToString());
+                //cmd.Parameters.AddWithValue("@userInformation", json.ToString());
 
                 cmd.ExecuteNonQuery();
 
                 connection.Close();
             }
             catch (Exception e)
-            {
+             {
                 Console.WriteLine(e.Message);
             }
 

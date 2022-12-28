@@ -125,23 +125,10 @@ namespace Assignment.Web.API.Controllers
             var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
             int Oid=0;
             string FormTable = "";
-            
+            Oid=data["Oid"] ;
+            FormTable = data["formType"];
 
-            foreach (JProperty property in data.Properties())
-            {
-                // Debug.WriteLine(property.Name + " ---- " + property.Value);
-                if (property.Name == "Oid")
-                {
-                    Oid = (int)property.Value;
-                }
-                else if (property.Name == "formType") //which table will get the data
-                {
-                    FormTable = (string)property.Value;
-                }
-
-            }
-
-            FormJsonRepository.updateFormInformation(json, Oid, FormTable);
+            FormJsonRepository.updateFormInformation(data, Oid, FormTable);
 
         }
 
