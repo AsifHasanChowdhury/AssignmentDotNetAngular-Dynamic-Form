@@ -24,6 +24,7 @@ export class ShowApplicationsListComponent implements OnInit {
   display:boolean=false;
   individualUser:any;
   role:string;
+  roleBoolean:boolean=false;
   
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
@@ -33,6 +34,9 @@ export class ShowApplicationsListComponent implements OnInit {
     this.role=localStorage.getItem("role");
     console.log(this.role);
     //console.log(this.userRole)
+    if(this.role=="Manager"){
+      this.roleBoolean=true;
+    }
   }
   toggle(individualUser){
     this.display= !this.display;

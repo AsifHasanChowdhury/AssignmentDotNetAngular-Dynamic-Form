@@ -23,8 +23,10 @@
       <td *ngFor="let val of item.value | keyvalue">{{val.value}}</td>
       <td>
         <button style="margin-right: 7px;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
-        <button style="margin-right: 7px;"type="button" class="btn btn-success">Approve</button>
+       <div *ngIf="!roleBoolean">
+        <button  style="margin-right: 7px;"type="button" class="btn btn-success">Approve</button>
         <button style="margin-right: 7px;"type="button" class="btn btn-danger" >Reject</button>
+      </div>
         <button type="button" class="btn btn-info" (click)="deleteData(item.value)">Delete</button>
       </td>
     </tr>
