@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import { NgForm } from '@angular/forms';
 import { TitleStrategy } from '@angular/router';
+import { LoginComponent } from 'app/login/login/login.component';
 
 @Component({
   selector: 'app-show-applications-list',
@@ -12,6 +13,7 @@ import { TitleStrategy } from '@angular/router';
 })
 export class ShowApplicationsListComponent implements OnInit {
 
+  @Input() userRole:string;
   object: {[key: string]: string} = {"UserName": 'foo', "Email": 'bar'};
 
   alphas:any;
@@ -21,11 +23,13 @@ export class ShowApplicationsListComponent implements OnInit {
   UIKeys=[];
   display:boolean=false;
   individualUser:any;
+  
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
 
   ngOnInit() {
     this.fetchAllResult();
+    //console.log(this.userRole)
   }
   toggle(individualUser){
     this.display= !this.display;
