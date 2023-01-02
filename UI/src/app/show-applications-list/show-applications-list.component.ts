@@ -13,7 +13,7 @@ import { LoginComponent } from 'app/login/login/login.component';
 })
 export class ShowApplicationsListComponent implements OnInit {
 
-  @Input() userRole:string;
+
   object: {[key: string]: string} = {"UserName": 'foo', "Email": 'bar'};
 
   alphas:any;
@@ -23,25 +23,28 @@ export class ShowApplicationsListComponent implements OnInit {
   UIKeys=[];
   display:boolean=false;
   individualUser:any;
+  role:string;
   
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
 
   ngOnInit() {
     this.fetchAllResult();
+    this.role=localStorage.getItem("role");
+    console.log(this.role);
     //console.log(this.userRole)
   }
   toggle(individualUser){
     this.display= !this.display;
     this.individualUser=individualUser;
-    console.log(this.individualUser);
+    //console.log(this.individualUser);
   }
   hideForm(){
     this.display=false;
   }
 
   private fetchAllResult(){
-
+    
     this.http
       .post('https://localhost:44379/Form/ShowAllRequests',{"id":"1"})
       .pipe(
@@ -49,7 +52,7 @@ export class ShowApplicationsListComponent implements OnInit {
 
           this.alphas=responseData as string
           //this.safeWaterForm=this.sanitizer.bypassSecurityTrustHtml(this.alphas);
-          console.log(this.alphas)
+          //console.log(this.alphas)
           for(let item of this.alphas){
 
             for(let i=0;i<Object.keys(item).length;i++){
@@ -61,7 +64,7 @@ export class ShowApplicationsListComponent implements OnInit {
 
             break;
           }
-          console.log(this.UIKeys);
+          //console.log(this.UIKeys);
 
         })
       )
@@ -104,7 +107,7 @@ export class ShowApplicationsListComponent implements OnInit {
 
     this.person[keyID]=value;
 }
-console.log(this.person)
+//console.log(this.person)
     this.display=false;
 this.sendToAPI();
 

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   credentials: LoginModel = {username:'', password:''};
   userRole: string;
+  
 
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -36,9 +37,10 @@ export class LoginComponent implements OnInit {
           let decodedJwtJsonData = window.atob(jwtData)
           this.userRole= JSON.parse(decodedJwtJsonData)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
           console.log(this.userRole)
+          
           //done with jwt parsing
-          //this.redirect.emit(this.userRole);
-
+         // this.redirect.emit(this.userRole);
+         localStorage.setItem("role", this.userRole); 
           localStorage.setItem("jwt", token); 
           this.invalidLogin = false; 
           this.router.navigate(["/"]);
