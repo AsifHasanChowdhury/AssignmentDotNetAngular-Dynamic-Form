@@ -123,12 +123,24 @@ namespace Assignment.Web.API.Controllers
         public void UpdateInformationbyAdmin([FromBody] Object json)
         {
             var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
-            int Oid=0;
-            string FormTable = "";
-            Oid=data["Oid"] ;
-            FormTable = data["formType"];
-
+            int Oid= data["Oid"];
+            string FormTable = data["formType"];
             FormJsonRepository.updateFormInformation(data, Oid, FormTable);
+
+        }
+
+
+
+        [HttpPost]
+        [Route("DeleteRequest")]
+
+        public void DeleteFormResponsebyAdmin([FromBody] Object json)
+        {
+            var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
+            int Oid = data["Oid"];
+            string FormTable = data["formType"];
+
+            FormJsonRepository.deleteFormInformation(Oid, FormTable);
 
         }
 
