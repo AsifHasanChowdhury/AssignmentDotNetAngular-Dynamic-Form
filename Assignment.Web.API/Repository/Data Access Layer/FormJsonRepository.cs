@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 
@@ -122,15 +123,18 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
                 connection.Open();
 
-                string loadInforamtion = "SELECT waterTable.Oid AS WTOID, waterTable.FormResponse AS WFR, " +
-                    "HomePermitTable.Oid AS HTOID, HomePermitTable.FormResponse AS HPFR," +
-                    "birthTable.Oid  AS BTOID , birthTable.FormResponse AS BFR " +
-                    "FROM userInfo " +
-                    "RIGHT JOIN waterTable ON waterTable.UserOid = userInfo.Oid " +
-                    "LEFT JOIN HomePermitTable ON HomePermitTable.UserId = userInfo.Oid " +
-                    "LEFT JOIN birthTable ON birthTable.UserOid = userInfo.Oid";
+                //string loadInforamtion = "SELECT waterTable.Oid AS WTOID, waterTable.FormResponse AS WFR, " +
+                //    "HomePermitTable.Oid AS HTOID, HomePermitTable.FormResponse AS HPFR," +
+                //    "birthTable.Oid  AS BTOID , birthTable.FormResponse AS BFR " +
+                //    "FROM userInfo " +
+                //    "RIGHT JOIN waterTable ON waterTable.UserOid = userInfo.Oid " +
+                //    "LEFT JOIN HomePermitTable ON HomePermitTable.UserId = userInfo.Oid " +
+                //    "LEFT JOIN birthTable ON birthTable.UserOid = userInfo.Oid";
 
-                SqlCommand comm = new SqlCommand(loadInforamtion, connection);
+                string loadInformation = "SELECT Oid AS TableId , FormResponse FROM dbo.waterTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.birthTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable";
+
+
+                SqlCommand comm = new SqlCommand(loadInformation, connection);
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(comm);
                 DataTable dt = new DataTable();
                 sqlDataAdapter.Fill(dt);
@@ -139,6 +143,7 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
                 for(int i=0; i<dt.Rows.Count; i++)
                 {
+                    /*
                     if (dt.Rows[i]["WFR"].ToString() != "")
                     {
                        
@@ -184,7 +189,22 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                         JsonList.Append(',');
 
                     }
+                    */
+                    if (dt.Rows[i]["FormResponse"].ToString() != "")
+                    {
 
+                        JObject FRjson = JObject.Parse(dt.Rows[i]["FormResponse"].ToString());
+
+                        if (!FRjson.ContainsKey("Oid"))
+                        {
+                            FRjson.Add("Oid", dt.Rows[i]["TableId"].ToString());
+
+                        }
+
+                        JsonList.Append(Convert.ToString(FRjson));
+                        JsonList.Append(',');
+
+                    }
                 }
                 //JsonList.Remove(JsonList.Length - 2,JsonList.Length-1);
                 JsonList.Length--;
@@ -239,9 +259,44 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
             catch (Exception e)
              {
                 Console.WriteLine(e.Message);
+             }
+
+        }
+
+
+        public void deleteFormInformation(int Oid, String FormTable)
+        {
+            try
+            {
+
+                SqlConnection connection =
+                    new SqlConnection(Configuration
+                    .GetConnectionString("DefaultConnection")
+                    .ToString());
+
+
+                connection.Open();
+
+                StringBuilder queryString =
+                new StringBuilder("DELETE FROM [UserInfoTable] WHERE Oid = TableID");
+
+                queryString.Replace("[UserInfoTable]", FormTable);
+
+                queryString.Replace("TableID", Oid.ToString());
+
+                SqlCommand cmd = new SqlCommand(queryString.ToString(), connection);
+
+                cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
 
         }
-        
+
+
+        }
     }
-}

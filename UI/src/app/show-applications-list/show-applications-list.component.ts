@@ -25,7 +25,7 @@ export class ShowApplicationsListComponent implements OnInit {
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
 
   ngOnInit() {
-    this.fetchWaterForm();
+    this.fetchAllResult();
   }
   toggle(individualUser){
     this.display= !this.display;
@@ -36,7 +36,7 @@ export class ShowApplicationsListComponent implements OnInit {
     this.display=false;
   }
 
-  private fetchWaterForm(){
+  private fetchAllResult(){
 
     this.http
       .post('https://localhost:44379/Form/ShowAllRequests',{"id":"1"})
@@ -68,7 +68,7 @@ export class ShowApplicationsListComponent implements OnInit {
   }
 
 
-  sendToAPI(){
+  private sendToAPI(){
 
     this.http
       .post(
@@ -80,7 +80,7 @@ export class ShowApplicationsListComponent implements OnInit {
     //console.log(form['value']);
   }
 
-  onUpdate(form:NgForm){
+  private onUpdate(form:NgForm){
     for(var i=0;i<document
       .getElementById('Parent')
       .querySelectorAll('input')
@@ -103,6 +103,20 @@ export class ShowApplicationsListComponent implements OnInit {
 console.log(this.person)
     this.display=false;
 this.sendToAPI();
+
+  }
+
+
+  private deleteData(Data:any){
+    console.log(Data['Oid']);
+
+    this.http
+      .post(
+        'https://localhost:44379/Form/DeleteRequest',
+        Data)
+      .subscribe(responseData => {
+        // console.log(responseData);
+      });
 
   }
 

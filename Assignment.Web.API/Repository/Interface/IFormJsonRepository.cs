@@ -12,5 +12,7 @@ namespace Assignment.Web.API.Repository.Interface
 
         public void updateFormInformation(Object json, int Oid, string formTable);
 
+        public void deleteFormInformation(int Oid, string formTable);
+
     }
 }
