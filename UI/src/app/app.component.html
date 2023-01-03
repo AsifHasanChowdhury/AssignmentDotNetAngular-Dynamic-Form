@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-10 col-md-8 float-left" >
+    <div class=" float-left" style="margin: 2.5rem;" >
       <ul class="nav nav-tabs">
         <li  role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/">Home</a></li>
         <li *ngIf="isUserAuthenticated()" role="presentation"routerLinkActive="active" ><a routerLink="/water-supply">Water Supply Registration Form</a></li>
@@ -15,4 +15,5 @@
 <hr>
 
   <router-outlet></router-outlet>
+  <lib-ng-toast></lib-ng-toast>
 </div>

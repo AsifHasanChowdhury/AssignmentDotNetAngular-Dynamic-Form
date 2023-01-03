@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CustomersComponent } from './customers/customers.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 
 
@@ -55,7 +56,8 @@ export function tokenGetter() {
       }
     }),
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgToastModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

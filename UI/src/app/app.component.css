@@ -5,3 +5,6 @@
 p {
   color: blue;
 }
+.active a{
+  font-weight: bolder;
+}

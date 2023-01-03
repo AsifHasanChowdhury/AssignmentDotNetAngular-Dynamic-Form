@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {NgForm} from "@angular/forms";
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-water-supply',
@@ -19,11 +20,14 @@ export class WaterSupplyComponent implements OnInit {
   safeWaterForm: SafeHtml | undefined;
   person={};
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router,private toast:NgToastService) {}
 
   ngOnInit() {
     this.fetchWaterForm();
   }
+  openSuccess(){
+    this.toast.success({detail:"GREAT",summary:"Your Form has been Submitted", position:"tr", duration:5000})
+    }
 
   private fetchWaterForm(){
 
@@ -86,6 +90,7 @@ export class WaterSupplyComponent implements OnInit {
   }
       this.SendingApIResponse();
       this.router.navigate(['/']);
+      this.openSuccess();
       //console.log(this.PersonList);
   }
 

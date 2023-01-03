@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {NgForm} from "@angular/forms";
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
+
 
 @Component({
   selector: 'app-birth-certificate',
@@ -18,11 +20,14 @@ export class BirthCertificateComponent implements OnInit {
   person={};
   PersonList:any = [];
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router,private toast:NgToastService) {}
 
   ngOnInit() {
     this.fetchWaterForm();
   }
+  openSuccess(){
+    this.toast.success({detail:"GREAT",summary:"Your Form has been Submitted", position:"tr", duration:5000})
+    }
 
   private fetchWaterForm(){
 
@@ -86,5 +91,6 @@ export class BirthCertificateComponent implements OnInit {
     this.SendingApIResponse();
     //console.log(this.PersonList);
     this.router.navigate(['/']);
+    this.openSuccess();
   }
 }
