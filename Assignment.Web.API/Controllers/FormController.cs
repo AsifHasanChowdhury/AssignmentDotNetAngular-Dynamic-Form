@@ -12,7 +12,7 @@ using System.Dynamic;
 
 namespace Assignment.Web.API.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "AdminUser,GeneralUser")]
     [Route("[controller]")]
     [ApiController]
     public class FormController : ControllerBase
@@ -101,7 +101,6 @@ namespace Assignment.Web.API.Controllers
         }
 
 
-
         [HttpPost]
         [Route("ShowAllRequests")]
         public String ApplicationList()
@@ -141,6 +140,15 @@ namespace Assignment.Web.API.Controllers
             string FormTable = data["formType"];
 
             FormJsonRepository.deleteFormInformation(Oid, FormTable);
+
+        }
+
+        [HttpPost]
+        [Route("SearchApplicationbyEmail")]
+
+        public String SearchbyEmail([FromBody] Object json)
+        {
+            return null;
 
         }
 

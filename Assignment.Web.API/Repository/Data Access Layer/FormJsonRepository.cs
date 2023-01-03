@@ -27,7 +27,8 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
             try
             {
 
-                SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection").ToString());
+                SqlConnection connection = new SqlConnection
+                    (Configuration.GetConnectionString("DefaultConnection").ToString());
 
                 connection.Open();
                 string loadInforamtion = "SELECT JsonForm FROM formTable";
@@ -131,7 +132,8 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                 //    "LEFT JOIN HomePermitTable ON HomePermitTable.UserId = userInfo.Oid " +
                 //    "LEFT JOIN birthTable ON birthTable.UserOid = userInfo.Oid";
 
-                string loadInformation = "SELECT Oid AS TableId , FormResponse FROM dbo.waterTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.birthTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable";
+                string loadInformation = 
+               "SELECT Oid AS TableId , FormResponse FROM dbo.waterTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.birthTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable";
 
 
                 SqlCommand comm = new SqlCommand(loadInformation, connection);
@@ -297,6 +299,63 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
         }
 
+        public string FetchApplicationbyEmail()
+        {
+            StringBuilder JsonList = new StringBuilder();
+
+            try
+            {
+
+                SqlConnection connection = new SqlConnection(Configuration
+                .GetConnectionString("DefaultConnection")
+                .ToString());
+
+                connection.Open();
+
+                StringBuilder loadInformation =
+                new StringBuilder("SELECT Oid AS TableId , FormResponse FROM dbo.waterTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.birthTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable");
+
+                SqlCommand comm = new SqlCommand(loadInformation.ToString(), connection);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(comm);
+                DataTable dt = new DataTable();
+                sqlDataAdapter.Fill(dt);
+
+                JsonList.Append('[');
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                  
+                    if (dt.Rows[i]["FormResponse"].ToString() != "")
+                    {
+
+                        JObject FRjson = JObject.Parse(dt.Rows[i]["FormResponse"].ToString());
+
+                        if (!FRjson.ContainsKey("Oid"))
+                        {
+                            FRjson.Add("Oid", dt.Rows[i]["TableId"].ToString());
+
+                        }
+
+                        JsonList.Append(Convert.ToString(FRjson));
+                        JsonList.Append(',');
+
+                    }
+                }
+                //JsonList.Remove(JsonList.Length - 2,JsonList.Length-1);
+                JsonList.Length--;
+                JsonList.Append("]");
+
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return JsonList.ToString();
+        }
 
         }
     }

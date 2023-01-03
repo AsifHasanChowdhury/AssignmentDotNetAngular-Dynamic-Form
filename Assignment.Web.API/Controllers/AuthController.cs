@@ -36,34 +36,22 @@ namespace Assignment.Web.API.Controllers
         
         public IActionResult Login([FromBody] LoginModel user)
         {
-            if (user is null)
-            {
+            var JWTtoken="";
 
-                return BadRequest("Invalid client request");
+            if (user is not null)
+            {
+                 JWTtoken = _UsersRepository.loginAsync(user);
+
+                if (JWTtoken.Length > 25)
+                {
+                    return Ok(new AuthenticatedResponse { Token = JWTtoken });
+                }
+
             }
 
-            if (user.UserName == "johndoe" && user.Password == "def@123")
+            else if(user is null)
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, "Manager")
-                };
-
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "https://localhost:44379",
-                    audience: "https://localhost:44379",
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-                return Ok(new AuthenticatedResponse { Token = tokenString });
+                return BadRequest("Invalid client request");
             }
 
             return Unauthorized();

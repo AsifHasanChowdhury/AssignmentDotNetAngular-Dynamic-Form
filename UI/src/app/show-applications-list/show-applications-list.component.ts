@@ -25,7 +25,7 @@ export class ShowApplicationsListComponent implements OnInit {
   individualUser:any;
   role:string;
   roleBoolean:boolean=false;
-  
+
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
 
@@ -34,7 +34,7 @@ export class ShowApplicationsListComponent implements OnInit {
     this.role=localStorage.getItem("role");
     console.log(this.role);
     //console.log(this.userRole)
-    if(this.role=="Manager"){
+    if(this.role=="AdminUser"){
       this.roleBoolean=true;
     }
   }
@@ -48,7 +48,7 @@ export class ShowApplicationsListComponent implements OnInit {
   }
 
   private fetchAllResult(){
-    
+
     this.http
       .post('https://localhost:44379/Form/ShowAllRequests',{"id":"1"})
       .pipe(
