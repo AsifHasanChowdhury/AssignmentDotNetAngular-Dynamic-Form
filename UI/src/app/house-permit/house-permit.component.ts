@@ -3,6 +3,7 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {NgForm} from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-house-permit',
@@ -16,7 +17,7 @@ export class HousePermitComponent implements OnInit {
   safeWaterForm: SafeHtml | undefined;
   person={};
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private router: Router) {}
 
   ngOnInit() {
     this.fetchWaterForm();
@@ -83,6 +84,7 @@ export class HousePermitComponent implements OnInit {
     }
     this.SendingApIResponse();
     //console.log(this.PersonList);
+    this.router.navigate(['/']);
   }
 
 }

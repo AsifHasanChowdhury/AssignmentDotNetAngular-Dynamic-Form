@@ -114,6 +114,7 @@ export class ShowApplicationsListComponent implements OnInit {
 //console.log(this.person)
     this.display=false;
 this.sendToAPI();
+window.location.reload();
 
   }
 
@@ -128,6 +129,7 @@ this.sendToAPI();
       .subscribe(responseData => {
         // console.log(responseData);
       });
+      window.location.reload();
 
   }
 

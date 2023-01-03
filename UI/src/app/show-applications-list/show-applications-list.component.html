@@ -21,8 +21,8 @@
   <tbody>
     <tr *ngFor="let item of alphas | keyvalue">
       <td *ngFor="let val of item.value | keyvalue">{{val.value}}</td>
-      <td>
-        <button type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
+      <td style="display: flex;">
+        <button style="margin-right: 1rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
        <div *ngIf="roleBoolean" style="margin: 0.5rem; margin-left: 0px;">
         <button  style="margin-right: 7px;"type="button" class="btn btn-success">Approve</button>
         <button style="margin-right: 7px;"type="button" class="btn btn-danger" >Reject</button>
