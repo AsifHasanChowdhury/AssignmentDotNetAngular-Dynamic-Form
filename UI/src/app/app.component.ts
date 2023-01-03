@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import {DomSanitizer, SafeHtml}  from "@angular/platform-browser";
 import {NgForm} from "@angular/forms";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private jwtHelper: JwtHelperService) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private jwtHelper: JwtHelperService,private router:Router) {}
 
   ngOnInit() {
    // this.fetchPosts();
@@ -40,5 +41,9 @@ export class AppComponent implements OnInit {
     }
 
     return false;
+  }
+  logOut = () => {
+    localStorage.removeItem("jwt");
+    this.router.navigate(['/login']);
   }
 }

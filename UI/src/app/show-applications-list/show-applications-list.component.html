@@ -22,12 +22,12 @@
     <tr *ngFor="let item of alphas | keyvalue">
       <td *ngFor="let val of item.value | keyvalue">{{val.value}}</td>
       <td style="display: flex;">
-        <button style="margin-right: 1rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
+        <button style="margin-right: 1rem; margin-top: 0.5rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
        <div *ngIf="roleBoolean" style="margin: 0.5rem; margin-left: 0px;">
         <button  style="margin-right: 7px;"type="button" class="btn btn-success">Approve</button>
         <button style="margin-right: 7px;"type="button" class="btn btn-danger" >Reject</button>
       </div>
-        <button  type="button" class="btn btn-info" (click)="deleteData(item.value)">Delete</button>
+        <button  type="button" class="btn btn-info" style="margin-top: 0.5rem;" (click)="deleteData(item.value)">Delete</button>
       </td>
     </tr>
   </tbody>
@@ -39,7 +39,7 @@
   <h1 style="font-weight: bold; color: brown;">Update your Information</h1> <br><br>
   <div class="form-group" *ngFor="let data of UIKeys; let user of individualUser|keyvalue" >
     <label >{{data.key}}</label>
-  <input  id="{{data.key}}" class="form-control" value="{{data.value}}">
+  <input id="{{data.key}}" class="form-control" value="{{data.value}}">
   </div>
   <button type="submit" class="btn btn-primary" >Submit</button>
 </form>
