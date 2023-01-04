@@ -2,6 +2,8 @@
 using Assignment.Web.API.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using Microsoft.Extensions.Hosting;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
@@ -9,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Security.Claims;
 
 namespace Assignment.Web.API.Controllers
 {
@@ -105,13 +108,21 @@ namespace Assignment.Web.API.Controllers
         [Route("ShowAllRequests")]
         public String ApplicationList()
         {
+            ClaimsPrincipal currentUser = this.User;
+            String FormList = "";
+            if (currentUser.IsInRole("AdminUser")){
 
+                FormList = FormJsonRepository.FetchApplicationList();
+            }
+            else
+            {
+               FormList= SearchbyEmail(currentUser.Claims.ToList());
+            }
             //var FormJsonFormat = JsonConvert
             //    .SerializeObject(FormJsonRepository.FetchApplicationList());
 
             // return FormJsonFormat;
-            String FormList = FormJsonRepository.FetchApplicationList();
-          
+
             return FormList;
         }
 
@@ -135,20 +146,50 @@ namespace Assignment.Web.API.Controllers
 
         public void DeleteFormResponsebyAdmin([FromBody] Object json)
         {
-            var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
-            int Oid = data["Oid"];
-            string FormTable = data["formType"];
 
-            FormJsonRepository.deleteFormInformation(Oid, FormTable);
+            try
+            {
+                var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
+                int Oid = data["Oid"];
+                string FormTable = data["formType"];
+                FormJsonRepository.deleteFormInformation(Oid, FormTable);
+
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
         }
 
         [HttpPost]
         [Route("SearchApplicationbyEmail")]
 
-        public String SearchbyEmail([FromBody] Object json)
+        public string SearchbyEmail(List<Claim> userClaim)
         {
-            return null;
+
+            // var userID = JsonConvert.DeserializeObject<dynamic>(json.ToString());
+            //userID = Convert.ToInt32(userID["userID"]);
+
+            var ApplicationListResponse = "";
+
+           foreach(var item in userClaim)
+            {
+                if (item.Type.Equals("http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid")) {
+
+                    // Debug.WriteLine(item.Value);
+                    ApplicationListResponse=FormJsonRepository
+                                           .FetchApplicationbyEmail
+                                           (Convert.ToInt32(item.Value));
+
+                    return ApplicationListResponse;
+
+
+                }
+
+            }
+
+            return ApplicationListResponse;
+
 
         }
 
