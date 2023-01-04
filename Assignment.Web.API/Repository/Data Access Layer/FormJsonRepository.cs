@@ -299,7 +299,7 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
 
         }
 
-        public string FetchApplicationbyEmail()
+        public string FetchApplicationbyEmail(int userID)
         {
             StringBuilder JsonList = new StringBuilder();
 
@@ -313,7 +313,13 @@ namespace Assignment.Web.API.Repository.Data_Access_Layer
                 connection.Open();
 
                 StringBuilder loadInformation =
-                new StringBuilder("SELECT Oid AS TableId , FormResponse FROM dbo.waterTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.birthTable UNION ALL\r\nSELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable");
+                new StringBuilder("SELECT Oid AS TableId , FormResponse FROM dbo.waterTable " +
+                "WHERE dbo.waterTable.UserOid= userIdentity UNION ALL SELECT Oid As TableID , FormResponse FROM dbo.birthTable " +
+                "WHERE dbo.birthTable.UserOid= userIdentity UNION ALL SELECT Oid As TableID , FormResponse FROM dbo.HomePermitTable " +
+                "WHERE dbo.HomePermitTable.Userid= userIdentity");
+
+
+                loadInformation.Replace("userIdentity" , userID.ToString());
 
                 SqlCommand comm = new SqlCommand(loadInformation.ToString(), connection);
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(comm);
