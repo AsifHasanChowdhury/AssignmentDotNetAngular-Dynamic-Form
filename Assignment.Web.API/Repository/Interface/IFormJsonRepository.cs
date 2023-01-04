@@ -14,5 +14,8 @@ namespace Assignment.Web.API.Repository.Interface
 
         public void deleteFormInformation(int Oid, string formTable);
 
+        public String FetchApplicationbyEmail(int id);
+
+
     }
 }
