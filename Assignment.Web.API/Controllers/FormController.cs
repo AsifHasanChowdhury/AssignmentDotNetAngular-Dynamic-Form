@@ -106,7 +106,7 @@ namespace Assignment.Web.API.Controllers
 
         [HttpPost]
         [Route("ShowAllRequests")]
-        public String ApplicationList()
+        public IActionResult ApplicationList()
         {
             ClaimsPrincipal currentUser = this.User;
             String FormList = "";
@@ -116,6 +116,7 @@ namespace Assignment.Web.API.Controllers
             }
             else
             {
+              //  return RedirectToAction(SearchbyEmail(currentUser.Claims.ToList()));
                FormList= SearchbyEmail(currentUser.Claims.ToList());
             }
             //var FormJsonFormat = JsonConvert
@@ -123,7 +124,7 @@ namespace Assignment.Web.API.Controllers
 
             // return FormJsonFormat;
 
-            return FormList;
+            return  Ok(FormList);
         }
 
 
@@ -182,7 +183,6 @@ namespace Assignment.Web.API.Controllers
                                            (Convert.ToInt32(item.Value));
 
                     return ApplicationListResponse;
-
 
                 }
 
