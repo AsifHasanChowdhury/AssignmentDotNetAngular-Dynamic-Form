@@ -132,5 +132,18 @@ window.location.reload();
       window.location.reload();
 
   }
+  private onApproved(decisionValue){
+    decisionValue['Decison']='APPROVED';
+    this.person=decisionValue;
+    
+    this.sendToAPI();
+//window.location.reload();
+  }
+  private onRejected(decisionValue){
+    decisionValue['Decison']='REJECTED';
+    this.person=decisionValue;
+    
+    this.sendToAPI();
+  }
 
 }
