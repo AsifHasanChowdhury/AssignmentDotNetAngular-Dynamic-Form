@@ -10,7 +10,7 @@
       <td style="display: flex;">
         <button style="margin-right: 1rem; margin-top: 0.5rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
        <div *ngIf="roleBoolean" style="margin: 0.5rem; margin-left: 0px;">
-        <button  style="margin-right: 7px;"type="button" class="btn btn-success" (click)="onApproved(item.value)">Approve</button>
+        <button style="margin-right: 7px;"type="button" class="btn btn-success" (click)="onApproved(item.value)">Approve</button>
         <button style="margin-right: 7px;"type="button" class="btn btn-danger"(click)="onRejected(item.value)" >Reject</button>
       </div>
         <button  type="button" class="btn btn-info" style="margin-top: 0.5rem;" (click)="deleteData(item.value)">Delete</button>
@@ -24,7 +24,7 @@
 <form *ngIf="display" id="Parent" (ngSubmit)="onUpdate(f1)" #f1="ngForm" style="border: solid 2px; padding: 20px;">
   <h1 style="font-weight: bold; color: brown;">Update your Information</h1> <br><br>
   <div class="form-group" *ngFor="let data of UIKeys; let user of individualUser|keyvalue" >
-    <div [ngClass]="{'hideElement':data.key=='Oid' || data.key=='formType'}">
+    <div [ngClass]="{'hideElement':data.key=='Oid' || data.key=='formType' || data.key=='Decison'}">
       <label>{{data.key}}</label>
       <input id="{{data.key}}" class="form-control" value="{{data.value}}">
     </div>
