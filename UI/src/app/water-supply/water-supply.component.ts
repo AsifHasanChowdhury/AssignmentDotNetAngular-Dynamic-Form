@@ -19,14 +19,30 @@ export class WaterSupplyComponent implements OnInit {
   alphas:any;
   safeWaterForm: SafeHtml | undefined;
   person={};
+  private keyID:string;
+  private value:string;
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router,private toast:NgToastService) {}
+  constructor(private http: HttpClient,
+              private sanitizer:DomSanitizer,
+              private router: Router,
+              private toast:NgToastService) {}
 
   ngOnInit() {
     this.fetchWaterForm();
   }
+
   openSuccess(){
-    this.toast.success({detail:"GREAT",summary:"Your Form has been Submitted", position:"tr", duration:5000})
+    this
+      .toast
+      .success
+      ({detail:"Submitted",summary:"Your Form has been Submitted", position:"tr", duration:5000})
+    }
+
+    pendingSuccess(){
+      this
+        .toast
+        .error
+        ({detail:"Warning",summary:"Your Form Response is Invalid", position:"tr", duration:5000})
     }
 
   private fetchWaterForm(){
@@ -44,7 +60,7 @@ export class WaterSupplyComponent implements OnInit {
       )
       .subscribe(posts => {
         // ...
-        console.log("Hello");
+        //console.log("Hello");
       });
   }
 
@@ -65,32 +81,41 @@ export class WaterSupplyComponent implements OnInit {
 
   cookBacon(form:NgForm){
 
+
   for(var i=0;i<document
                 .getElementById('data')
                 .querySelectorAll('input')
                 .length-1; i++){
 
-      var keyID=document
+      this.keyID=document
                 .getElementById('data')
                 .querySelectorAll('input')
                 .item(i).id;
 
-      var value=document
+      this.value=document
                 .getElementById('data')
                 .querySelectorAll('input')
                 .item(i).value;
 
+      if (this.value.length==0){
+        break;
+      }
 
-
-      this.person[keyID]=value;
+      this.person[this.keyID]=this.value;
       this.person["formType"]="waterTable";
-      this.person['Decison']="pending"
+      this.person['Decison']="Pending"
       this.PersonList.push(this.person);
 
   }
-      this.SendingApIResponse();
-      this.router.navigate(['/']);
-      this.openSuccess();
+      if(this.value.length>0) {
+
+        this.SendingApIResponse();
+        this.router.navigate(['/']);
+        this.openSuccess();
+      }
+      else{
+        this.pendingSuccess();
+      }
       //console.log(this.PersonList);
   }
 
