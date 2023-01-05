@@ -21,6 +21,7 @@ export class WaterSupplyComponent implements OnInit {
   person={};
   private keyID:string;
   private value:string;
+  private formValidation:boolean;
 
   constructor(private http: HttpClient,
               private sanitizer:DomSanitizer,
@@ -87,6 +88,8 @@ export class WaterSupplyComponent implements OnInit {
                 .querySelectorAll('input')
                 .length-1; i++){
 
+      this.formValidation=true;
+
       this.keyID=document
                 .getElementById('data')
                 .querySelectorAll('input')
@@ -98,13 +101,28 @@ export class WaterSupplyComponent implements OnInit {
                 .item(i).value;
 
       if (this.value.length==0){
-        break;
+        this.formValidation=false;
+
+        document
+          .getElementById('data')
+          .querySelectorAll('input')
+          .item(i).placeholder=document
+          .getElementById('data')
+          .querySelectorAll('input')
+          .item(i).validationMessage;
+
+
       }
 
-      this.person[this.keyID]=this.value;
-      this.person["formType"]="waterTable";
-      this.person['Decison']="Pending"
-      this.PersonList.push(this.person);
+      if(this.formValidation==true){
+
+        this.person[this.keyID]=this.value;
+        this.person["formType"]="waterTable";
+        this.person['Decison']="Pending"
+        this.PersonList.push(this.person);
+
+      }
+
 
   }
       if(this.value.length>0) {
