@@ -19,6 +19,9 @@ export class BirthCertificateComponent implements OnInit {
   safeWaterForm: SafeHtml | undefined;
   person={};
   PersonList:any = [];
+  private formValidation:boolean;
+  private keyID:string;
+  private value:string;
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer, private router: Router,private toast:NgToastService) {}
 
@@ -27,6 +30,12 @@ export class BirthCertificateComponent implements OnInit {
   }
   openSuccess(){
     this.toast.success({detail:"GREAT",summary:"Your Form has been Submitted", position:"tr", duration:5000})
+    }
+    pendingSuccess(){
+      this
+        .toast
+        .error
+        ({detail:"Warning",summary:"Your Form Response is Invalid", position:"tr", duration:5000})
     }
 
   private fetchWaterForm(){
@@ -65,32 +74,63 @@ export class BirthCertificateComponent implements OnInit {
 
   cookBacon(form:NgForm){
 
-    for(var i=0;i<document
-      .getElementById('data')
-      .querySelectorAll('input')
-      .length-1; i++){
 
-      var keyID=document
-        .getElementById('data')
-        .querySelectorAll('input')
-        .item(i).id;
-
-      var value=document
-        .getElementById('data')
-        .querySelectorAll('input')
-        .item(i).value;
-
-
-
-      this.person[keyID]=value;
-      this.person["formType"]="birthTable";
-      this.person['Decison']="pending"
-      this.PersonList.push(this.person);
-
+    for(let i=0;i<document
+                  .getElementById('data')
+                  .querySelectorAll('input')
+                  .length-1; i++){
+  
+        this.formValidation=true;
+  
+        this.keyID=document
+                  .getElementById('data')
+                  .querySelectorAll('input')
+                  .item(i).id;
+  
+        this.value=document
+                  .getElementById('data')
+                  .querySelectorAll('input')
+                  .item(i).value;
+  
+        if (this.value.length==0){
+          this.formValidation=false;
+  
+          document
+            .getElementById('data')
+            .querySelectorAll('input')
+            .item(i).placeholder=document
+            .getElementById('data')
+            .querySelectorAll('input')
+            .item(i).validationMessage;
+  
+          document
+            .getElementById('data')
+            .querySelectorAll('input')
+            .item(i).style.borderColor="red";
+  
+  
+        }
+  
+        if(this.formValidation==true){
+  
+          this.person[this.keyID]=this.value;
+          this.person["formType"]="birthTable";
+          this.person['Decison']="Pending"
+          this.PersonList.push(this.person);
+  
+        }
+  
+  
     }
-    this.SendingApIResponse();
-    //console.log(this.PersonList);
-    this.router.navigate(['/']);
-    this.openSuccess();
-  }
+        if(this.value.length>0) {
+  
+          this.SendingApIResponse();
+          this.router.navigate(['/']);
+          this.openSuccess();
+        }
+        else{
+          this.pendingSuccess();
+        }
+        //console.log(this.PersonList);
+    }
 }
