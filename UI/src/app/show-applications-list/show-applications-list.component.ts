@@ -25,14 +25,14 @@ export class ShowApplicationsListComponent implements OnInit {
   individualUser:any;
   role:string;
   roleBoolean:boolean=false;
-
+  
 
   constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
 
   ngOnInit() {
     this.fetchAllResult();
     this.role=localStorage.getItem("role");
-    console.log(this.role);
+    //console.log(this.role);
     //console.log(this.userRole)
     if(this.role=="AdminUser"){
       this.roleBoolean=true;
@@ -41,8 +41,10 @@ export class ShowApplicationsListComponent implements OnInit {
   toggle(individualUser){
     this.display= !this.display;
     this.individualUser=individualUser;
-    //console.log(this.individualUser);
+    
+    
   }
+
   hideForm(){
     this.display=false;
   }
@@ -62,7 +64,10 @@ export class ShowApplicationsListComponent implements OnInit {
             for(let i=0;i<Object.keys(item).length;i++){
               const key = Object.keys(item)[i]
               //console.log(key)
-              this.UIKeys.push(key);
+              
+                this.UIKeys.push(key);
+              
+              
               this.UIKeys=this.UIKeys.sort();
             }
 
@@ -141,6 +146,7 @@ window.location.reload();
   }
   private onRejected(decisionValue){
     decisionValue['Decison']='REJECTED';
+    
     this.person=decisionValue;
     
     this.sendToAPI();

@@ -3,3 +3,14 @@ button{
     height: 3.35rem;
     width: 8rem;
 }
+.hideElement{
+    display: none;
+}
+.success1{
+    font-weight: bold;
+    color: green;
+}
+.reject{
+    font-weight: bold;
+    color: red;
+}
