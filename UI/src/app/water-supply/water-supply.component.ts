@@ -83,10 +83,10 @@ export class WaterSupplyComponent implements OnInit {
   cookBacon(form:NgForm){
 
 
-  for(var i=0;i<document
+  for(let i=0;i<document
                 .getElementById('data')
                 .querySelectorAll('input')
-                .length-1; i++){
+                .length; i++){
 
       this.formValidation=true;
 
@@ -110,6 +110,11 @@ export class WaterSupplyComponent implements OnInit {
           .getElementById('data')
           .querySelectorAll('input')
           .item(i).validationMessage;
+
+        document
+          .getElementById('data')
+          .querySelectorAll('input')
+          .item(i).style.borderColor="red";
 
 
       }
