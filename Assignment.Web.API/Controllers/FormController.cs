@@ -108,21 +108,34 @@ namespace Assignment.Web.API.Controllers
         [Route("ShowAllRequests")]
         public IActionResult ApplicationList()
         {
-            ClaimsPrincipal currentUser = this.User;
+
+
             String FormList = "";
-            if (currentUser.IsInRole("AdminUser")){
 
-                FormList = FormJsonRepository.FetchApplicationList();
-            }
-            else
+            try
             {
-              //  return RedirectToAction(SearchbyEmail(currentUser.Claims.ToList()));
-               FormList= SearchbyEmail(currentUser.Claims.ToList());
-            }
-            //var FormJsonFormat = JsonConvert
-            //    .SerializeObject(FormJsonRepository.FetchApplicationList());
+                ClaimsPrincipal currentUser = this.User;
 
-            // return FormJsonFormat;
+                if (currentUser.IsInRole("AdminUser"))
+                {
+
+                    FormList = FormJsonRepository.FetchApplicationList();
+                }
+                else
+                {
+                    //  return RedirectToAction(SearchbyEmail(currentUser.Claims.ToList()));
+                    FormList = SearchbyEmail(currentUser.Claims.ToList());
+                }
+                //var FormJsonFormat = JsonConvert
+                //    .SerializeObject(FormJsonRepository.FetchApplicationList());
+
+                // return FormJsonFormat;
+
+            } catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
 
             return  Ok(FormList);
         }
@@ -133,10 +146,18 @@ namespace Assignment.Web.API.Controllers
 
         public void UpdateInformationbyAdmin([FromBody] Object json)
         {
-            var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
-            int Oid= data["Oid"];
-            string FormTable = data["formType"];
-            FormJsonRepository.updateFormInformation(data, Oid, FormTable);
+            try
+            {
+                var data = JsonConvert.DeserializeObject<dynamic>(json.ToString());
+                int Oid = data["Oid"];
+                string FormTable = data["formType"];
+                FormJsonRepository.updateFormInformation(data, Oid, FormTable);
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
 
         }
 
@@ -170,23 +191,31 @@ namespace Assignment.Web.API.Controllers
 
             // var userID = JsonConvert.DeserializeObject<dynamic>(json.ToString());
             //userID = Convert.ToInt32(userID["userID"]);
-
             var ApplicationListResponse = "";
 
-           foreach(var item in userClaim)
+            try
             {
-                if (item.Type.Equals("http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid")) {
+                foreach (var item in userClaim)
+                {
+                    if (item.Type.Equals("http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid"))
+                    {
 
-                    // Debug.WriteLine(item.Value);
-                    ApplicationListResponse=FormJsonRepository
-                                           .FetchApplicationbyEmail
-                                           (Convert.ToInt32(item.Value));
+                        // Debug.WriteLine(item.Value);
+                        ApplicationListResponse = FormJsonRepository
+                                               .FetchApplicationbyEmail
+                                               (Convert.ToInt32(item.Value));
 
-                    return ApplicationListResponse;
+                        return ApplicationListResponse;
+
+                    }
 
                 }
-
+            }catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
+
+          
 
             return ApplicationListResponse;
 
