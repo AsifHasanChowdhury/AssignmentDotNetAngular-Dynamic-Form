@@ -21,6 +21,8 @@ export class WaterSupplyComponent implements OnInit {
   person={};
   private keyID:string;
   private value:string;
+  private inputItem:any;
+  private inputLabel:any;
   private formValidation:boolean;
 
   constructor(private http: HttpClient,
@@ -100,23 +102,25 @@ export class WaterSupplyComponent implements OnInit {
                 .querySelectorAll('input')
                 .item(i).value;
 
+      this.inputItem=document
+        .getElementById('data')
+        .querySelectorAll('input')
+        .item(i);
+
+      this.inputLabel= document
+        .getElementById('data')
+        .querySelectorAll('label')
+        .item(i)
+
       if (this.value.length==0){
+
         this.formValidation=false;
 
-        document
-          .getElementById('data')
-          .querySelectorAll('input')
-          .item(i).placeholder=document
-          .getElementById('data')
-          .querySelectorAll('input')
-          .item(i).validationMessage;
+        this.inputItem.placeholder=this.inputItem.validationMessage;
 
-        document
-          .getElementById('data')
-          .querySelectorAll('input')
-          .item(i).style.borderColor="red";
+        this.inputItem.style.borderColor="red";
 
-
+       // this.inputLabel.innerText=this.inputLabel.innerText.
       }
 
       if(this.formValidation==true){
