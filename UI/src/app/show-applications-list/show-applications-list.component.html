@@ -6,12 +6,12 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of alphas | keyvalue">
-      <td *ngFor="let val of item.value | keyvalue" [ngClass]="{'hideElement':val.key=='Oid', 'success1':val.value=='APPROVED','reject':val.value=='REJECTED'}">{{val.value}}</td>
+      <td *ngFor="let val of item.value | keyvalue" [ngClass]="{'hideElement':val.key=='Oid', 'success1':val.value=='APPROVED' && val.key=='Decison','reject':val.value=='REJECTED' && val.key=='Decison'}">{{val.value}}</td>
       <td style="display: flex;">
-        <button style="margin-right: 1rem; margin-top: 0.5rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button>
+        <button style="margin-right: 1rem; margin-top: 0.5rem;" type="button" class="btn btn-warning" (click)="toggle(item.value)">Edit</button> 
        <div *ngIf="roleBoolean" style="margin: 0.5rem; margin-left: 0px;">
-        <button style="margin-right: 7px;"type="button" class="btn btn-success" (click)="onApproved(item.value)">Approve</button>
-        <button style="margin-right: 7px;"type="button" class="btn btn-danger"(click)="onRejected(item.value)" >Reject</button>
+        <button  style="margin-right: 7px;"type="button" class="btn btn-success"  (click)="onApproved(item.value)">Approve</button>
+        <button  style="margin-right: 7px;"type="button" class="btn btn-danger"(click)="onRejected(item.value)">Reject</button>
       </div>
         <button  type="button" class="btn btn-info" style="margin-top: 0.5rem;" (click)="deleteData(item.value)">Delete</button>
       </td>

@@ -6,6 +6,9 @@ button{
 .hideElement{
     display: none;
 }
+.showElement{
+    display: inline;
+}
 .success1{
     font-weight: bold;
     color: green;
@@ -13,4 +16,14 @@ button{
 .reject{
     font-weight: bold;
     color: red;
+}
+.btn-disable
+{
+cursor: not-allowed;
+pointer-events: none;
+
+/*Button disabled - CSS color class*/
+color: #c0c0c0;
+background-color: #ffffff;
+
 }
