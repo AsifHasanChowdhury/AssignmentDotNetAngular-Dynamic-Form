@@ -56,7 +56,7 @@ export function tokenGetter() {
       }
     }),
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes,{useHash:true}),
     NgToastModule
   ],
   providers: [AuthGuard],
