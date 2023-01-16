@@ -5,6 +5,7 @@ import {map} from "rxjs/operators";
 import {NgForm} from "@angular/forms";
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { TransletLocalHostService } from 'app/service/translet-local-host.service';
 
 
 @Component({
@@ -22,11 +23,12 @@ export class HousePermitComponent implements OnInit {
   private value:string;
   private formValidation:boolean;
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private router: Router,private toast:NgToastService) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer,private router: Router,private toast:NgToastService, private transletLocalHost: TransletLocalHostService) {}
 
   ngOnInit() {
     this.fetchWaterForm();
   }
+  baseIP:string=this.transletLocalHost.localhostIP;
   openSuccess(){
     this.toast.success({detail:"GREAT",summary:"Your Form has been Submitted",position:"tr", duration:5000})
     }
@@ -41,7 +43,7 @@ export class HousePermitComponent implements OnInit {
   private fetchWaterForm(){
 
     this.http
-      .post('https://localhost:44379/Form/SendFormModule',{"id":"3"})
+      .post(this.baseIP+'Form/SendFormModule',{"id":"3"})
       .pipe(
         map(responseData => {
 
@@ -63,7 +65,7 @@ export class HousePermitComponent implements OnInit {
 
     this.http
       .post(
-        'https://localhost:44379/Form/GetFormResponse',
+        this.baseIP+'Form/GetFormResponse',
         this.person)
       .subscribe(responseData => {
         // console.log(responseData);

@@ -27,7 +27,7 @@ export class ShowApplicationsListComponent implements OnInit {
   role:string;
   roleBoolean:boolean=false;
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private TransletlocalHost: TransletLocalHostService ) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private transletLocalHost: TransletLocalHostService ) {}
 
   ngOnInit() {
     this.fetchAllResult();
@@ -38,6 +38,7 @@ export class ShowApplicationsListComponent implements OnInit {
       this.roleBoolean=true;
     }
   }
+  baseIP:string=this.transletLocalHost.localhostIP;
   toggle(individualUser){
     this.display= !this.display;
     this.individualUser=individualUser;
@@ -53,7 +54,7 @@ export class ShowApplicationsListComponent implements OnInit {
   private fetchAllResult(){
 
     this.http
-      .post('https://localhost:44379/Form/ShowAllRequests',{"id":"1"})
+      .post(this.baseIP+'Form/ShowAllRequests',{"id":"1"})
       .pipe(
         map(responseData => {
 
@@ -89,7 +90,7 @@ export class ShowApplicationsListComponent implements OnInit {
 
     this.http
       .post(
-        'https://localhost:44379/Form/UpdateFormInfo',
+        this.baseIP+'Form/UpdateFormInfo',
         this.person)
       .subscribe(responseData => {
        // console.log(responseData);
@@ -127,10 +128,10 @@ window.location.reload();
 
   private deleteData(Data:any){
     console.log(Data['Oid']);
-    console.log((this.TransletlocalHost.localhostIP+'Form/DeleteRequest').toString());
+
     this.http
       .post(
-        (this.TransletlocalHost.localhostIP+'Form/DeleteRequest').toString(),
+        this.baseIP+'Form/DeleteRequest',
         Data)
       .subscribe(responseData => {
         // console.log(responseData);
@@ -143,7 +144,7 @@ window.location.reload();
     this.person=decisionValue;
 
     this.sendToAPI();
-    console.log(this.TransletlocalHost.localhostIP);
+    //console.log(this.TransletlocalHost.localhostIP);
     
 //window.location.reload();
   }

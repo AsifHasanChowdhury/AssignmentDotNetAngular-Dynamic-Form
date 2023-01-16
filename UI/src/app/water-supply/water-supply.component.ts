@@ -5,6 +5,7 @@ import {map} from "rxjs/operators";
 import {NgForm} from "@angular/forms";
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { TransletLocalHostService } from 'app/service/translet-local-host.service';
 
 @Component({
   selector: 'app-water-supply',
@@ -28,11 +29,13 @@ export class WaterSupplyComponent implements OnInit {
   constructor(private http: HttpClient,
               private sanitizer:DomSanitizer,
               private router: Router,
-              private toast:NgToastService) {}
+              private toast:NgToastService,
+              private transletLocalHost: TransletLocalHostService) {}
 
   ngOnInit() {
     this.fetchWaterForm();
   }
+  baseIP:string=this.transletLocalHost.localhostIP;
 
   openSuccess(){
     this
@@ -51,7 +54,7 @@ export class WaterSupplyComponent implements OnInit {
   private fetchWaterForm(){
 
     this.http
-      .post('https://localhost:44379/Form/SendFormModule',{"id":"1"})
+      .post(this.baseIP+'Form/SendFormModule',{"id":"1"})
       .pipe(
         map(responseData => {
 
@@ -73,7 +76,7 @@ export class WaterSupplyComponent implements OnInit {
 
     this.http
       .post(
-        'https://localhost:44379/Form/GetFormResponse',
+        this.baseIP+'Form/GetFormResponse',
         this.person)
       .subscribe(responseData => {
        // console.log(responseData);

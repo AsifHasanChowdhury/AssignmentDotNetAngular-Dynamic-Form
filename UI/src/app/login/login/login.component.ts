@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { AuthenticatedResponse } from 'app/_interfaces/authenticated-response.model';
 import { LoginModel } from 'app/_interfaces/login.model';
 import { NgForm } from '@angular/forms';
+import { TransletLocalHostService } from 'app/service/translet-local-host.service';
 
 @Component({
   selector: 'app-login',
@@ -17,15 +18,16 @@ export class LoginComponent implements OnInit {
   userRole: string;
   
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient,private transletLocalHost: TransletLocalHostService) { }
 
   ngOnInit(): void {
     
   }
+  baseIp:string=this.transletLocalHost.localhostIP;
 
   login = ( form: NgForm) => {
     if (form.valid) {
-      this.http.post<AuthenticatedResponse>("https://localhost:44379/api/auth/login", this.credentials, {
+      this.http.post<AuthenticatedResponse>(this.baseIp+"api/auth/login", this.credentials, {
         headers: new HttpHeaders({ "Content-Type": "application/json"})
       })
       .subscribe({
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
           let decodedJwtJsonData = window.atob(jwtData)
           this.userRole= JSON.parse(decodedJwtJsonData)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
           console.log(this.userRole)
+        
           
           //done with jwt parsing
          // this.redirect.emit(this.userRole);
