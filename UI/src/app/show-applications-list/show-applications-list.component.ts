@@ -5,6 +5,7 @@ import {map} from "rxjs/operators";
 import { NgForm } from '@angular/forms';
 import { TitleStrategy } from '@angular/router';
 import { LoginComponent } from 'app/login/login/login.component';
+import { TransletLocalHostService } from 'app/service/translet-local-host.service';
 
 @Component({
   selector: 'app-show-applications-list',
@@ -26,7 +27,7 @@ export class ShowApplicationsListComponent implements OnInit {
   role:string;
   roleBoolean:boolean=false;
 
-  constructor(private http: HttpClient,private sanitizer:DomSanitizer) {}
+  constructor(private http: HttpClient,private sanitizer:DomSanitizer, private TransletlocalHost: TransletLocalHostService ) {}
 
   ngOnInit() {
     this.fetchAllResult();
@@ -126,10 +127,10 @@ window.location.reload();
 
   private deleteData(Data:any){
     console.log(Data['Oid']);
-
+    console.log((this.TransletlocalHost.localhostIP+'Form/DeleteRequest').toString());
     this.http
       .post(
-        'https://localhost:44379/Form/DeleteRequest',
+        (this.TransletlocalHost.localhostIP+'Form/DeleteRequest').toString(),
         Data)
       .subscribe(responseData => {
         // console.log(responseData);
@@ -142,6 +143,7 @@ window.location.reload();
     this.person=decisionValue;
 
     this.sendToAPI();
+    console.log(this.TransletlocalHost.localhostIP);
     
 //window.location.reload();
   }
