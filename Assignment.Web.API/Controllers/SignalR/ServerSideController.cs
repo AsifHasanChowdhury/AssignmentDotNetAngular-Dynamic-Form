@@ -21,9 +21,9 @@ namespace NotificationProject.Controllers.SignalR
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(String mssg)
+        public async Task<IActionResult> Index(String title, String body, String bImg, String lImg)
         {
-            await _notification.Clients.All.SendAsync("ReceiveMessage", mssg);
+            await _notification.Clients.All.SendAsync("ReceiveNotification", title,body,bImg,lImg);
             return View();
         }
 

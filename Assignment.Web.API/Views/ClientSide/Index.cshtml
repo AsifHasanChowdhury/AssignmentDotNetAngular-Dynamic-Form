@@ -19,8 +19,11 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/notification").build();
 connection.start();
-connection.on("ReceiveMessage", function (mssg) {
+connection.on("ReceiveNotification", function (mssg,b,bi,li) {
     console.log(mssg);
+    console.log(b);
+    console.log(bi);
+    console.log(li);
     var li = document.createElement("li");
     li.textContent = mssg;
     document.getElementById("mssgList").appendChild(li);
