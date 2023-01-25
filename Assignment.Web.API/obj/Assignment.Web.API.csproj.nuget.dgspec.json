@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {}
+    "D:\\Git projects\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {}
   },
   "projects": {
-    "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {
+    "D:\\Git projects\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
+        "projectUniqueName": "D:\\Git projects\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
         "projectName": "Assignment.Web.API",
-        "projectPath": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
+        "projectPath": "D:\\Git projects\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\Assignment.Web.API.csproj",
         "packagesPath": "C:\\Users\\SECL\\.nuget\\packages\\",
-        "outputPath": "D:\\git file\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\obj\\",
+        "outputPath": "D:\\Git projects\\AssignmentDotNetAngular-Dynamic-Form\\Assignment.Web.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\SECL\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[6.0.0, )"
             },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.11, )"
+            },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
               "version": "[1.0.2, )"
@@ -63,8 +67,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -76,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
