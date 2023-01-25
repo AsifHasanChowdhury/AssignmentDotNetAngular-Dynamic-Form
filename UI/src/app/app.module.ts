@@ -28,10 +28,10 @@ const  appRoutes: Routes=[
   {path: 'birth-certificate' , component:BirthCertificateComponent},
   {path: 'house-Permit' , component:HousePermitComponent},
   {path: 'Show-Application', component:ShowApplicationsListComponent},
-  
+
 ]
-export function tokenGetter() { 
-  return localStorage.getItem("jwt"); 
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
 }
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ export function tokenGetter() {
       }
     }),
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,{useHash:true}),
+    RouterModule.forRoot(appRoutes,{useHash:false}),
     NgToastModule
   ],
   providers: [AuthGuard],
